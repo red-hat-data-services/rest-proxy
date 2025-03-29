@@ -1,5 +1,5 @@
-#go-toolset:1.21
-FROM registry.redhat.io/ubi8/go-toolset:1.21@sha256:742ae6ec1aef3e7faae488c47695fb64964d342aefecf52d23bd9d5e6731d0b6 AS build
+# Builder
+FROM registry.redhat.io/ubi9/go-toolset:1.22@sha256:10ae14c5f0a22d8eb4a5dad45c0330233cb9dd8cc01c370a1d3351f5243d5489 AS build
 
 LABEL image="build"
 
@@ -17,7 +17,8 @@ COPY . ./
 # Build the binary
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 GO111MODULE=on go build -a -o /go/bin/server ./proxy/
 
-#ubi-micro
+###############################################################################
+# Runtime - ubi-micro
 FROM registry.access.redhat.com/ubi8/ubi-micro@sha256:eae27ba458e682d6d830f6c77c9e3a4c33cf1718461397b741e674d9d37450f3 as runtime
 
 ARG USER=2000
