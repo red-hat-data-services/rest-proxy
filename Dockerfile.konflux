@@ -19,7 +19,7 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 GO111MODULE=on go build -a -o /go/bin/
 
 ###############################################################################
 # Runtime - ubi-micro
-FROM registry.access.redhat.com/ubi8/ubi-micro@sha256:eae27ba458e682d6d830f6c77c9e3a4c33cf1718461397b741e674d9d37450f3 as runtime
+FROM registry.access.redhat.com/ubi8/ubi-micro@sha256:084c06bf84ceb8ed8f868bd27e7fc6b2c83ae4e16f8e1f979dd7317961c7dd8a as runtime
 
 ARG USER=2000
 
