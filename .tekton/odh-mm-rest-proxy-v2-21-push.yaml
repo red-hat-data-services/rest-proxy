@@ -2,16 +2,15 @@ apiVersion: tekton.dev/v1
 kind: PipelineRun
 metadata:
   annotations:
+    build.appstudio.openshift.io/build-nudge-files: build/operator-nudging.yaml
     build.appstudio.openshift.io/repo: https://github.com/red-hat-data-services/rest-proxy?rev={{revision}}
     build.appstudio.redhat.com/commit_sha: '{{revision}}'
     build.appstudio.redhat.com/target_branch: '{{target_branch}}'
     pipelinesascode.tekton.dev/max-keep-runs: "3"
-    build.appstudio.openshift.io/build-nudge-files: "build/operator-nudging.yaml"
-    pipelinesascode.tekton.dev/on-cel-expression: |
-      event == "push" 
-      && target_branch == "rhoai-2.21"
-      && ( !".tekton/**".pathChanged() || ".tekton/odh-mm-rest-proxy-v2-21-push.yaml".pathChanged() )
-  creationTimestamp:
+    pipelinesascode.tekton.dev/on-cel-expression: "event == \"push\" \n&& target_branch
+      == \"rhoai-2.21\"\n&& ( !\".tekton/**\".pathChanged() || \".tekton/odh-mm-rest-proxy-v2-21-push.yaml\".pathChanged()
+      )\n"
+  creationTimestamp: null
   labels:
     appstudio.openshift.io/application: rhoai-v2-21
     appstudio.openshift.io/component: odh-mm-rest-proxy-v2-21
@@ -25,10 +24,10 @@ spec:
   - name: revision
     value: '{{revision}}'
   - name: additional-tags
-    value: 
+    value:
     - '{{target_branch}}-{{revision}}'
   - name: additional-labels
-    value: 
+    value:
     - version=v2.21.0
     - io.openshift.tags=odh-mm-rest-proxy
   - name: output-image
@@ -38,12 +37,11 @@ spec:
   - name: path-context
     value: .
   - name: hermetic
-    value: true
+    value: "true"
   - name: prefetch-input
     value: |
       {"type": "gomod", "path": "."}
   pipelineRef:
-    resolver: git
     params:
     - name: url
       value: https://github.com/red-hat-data-services/konflux-central.git
@@ -51,7 +49,9 @@ spec:
       value: '{{ target_branch }}'
     - name: pathInRepo
       value: pipelines/container-build.yaml
-  taskRunTemplate: {}
+    resolver: git
+  taskRunTemplate:
+    serviceAccountName: build-pipeline-odh-mm-rest-proxy-v2-21
   workspaces:
   - name: git-auth
     secret:
