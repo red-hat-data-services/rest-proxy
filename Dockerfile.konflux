@@ -23,7 +23,8 @@ FROM registry.access.redhat.com/ubi8/ubi-micro@sha256:0b348ff16700e13fef3753b712
 ARG USER=2000
 
 LABEL com.redhat.component="odh-mm-rest-proxy-container" \
-      name="managed-open-data-hub/odh-mm-rest-proxy-rhel8" \
+      name="rhoai/odh-mm-rest-proxy-rhel8" \
+      cpe="cpe:/a:redhat:openshift_ai:2.19::el8" \
       description="Converts RESTfull API calls into gRPC" \
       summary="odh-mm-rest-proxy" \
       maintainer="['managed-open-data-hub@redhat.com']" \
