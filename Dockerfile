@@ -15,7 +15,7 @@
 ###############################################################################
 # Stage 1: Create the developer image for the BUILDPLATFORM only
 ###############################################################################
-ARG GOLANG_VERSION=1.23
+ARG GOLANG_VERSION=1.25
 FROM --platform=$BUILDPLATFORM registry.access.redhat.com/ubi9/go-toolset:$GOLANG_VERSION AS develop
 
 ARG PROTOC_VERSION=21.12
@@ -28,9 +28,10 @@ ENV HOME=/root
 RUN --mount=type=cache,target=/root/.cache/dnf:rw \
     dnf install --setopt=cachedir=/root/.cache/dnf -y --nodocs \
       nodejs \
-      python38 \
-    && ln -sf /usr/bin/python3 /usr/bin/python \
-    && ln -sf /usr/bin/pip3 /usr/bin/pip \
+      python3.11 \
+      python3.11-pip \
+    && alternatives --install /usr/bin/unversioned-python python /usr/bin/python3.11 1 \
+    && alternatives --install /usr/bin/pip pip /usr/bin/pip3.11 1 \
     && true
 
 # Install pre-commit
@@ -134,7 +135,7 @@ RUN --mount=type=cache,target=/root/.cache/go-build \
 ###############################################################################
 # Stage 3: Copy binaries only to create the smallest final runtime image
 ###############################################################################
-FROM registry.access.redhat.com/ubi8/ubi-micro:latest as runtime
+FROM registry.access.redhat.com/ubi9/ubi-micro:latest as runtime
 
 ARG USER=2000
 

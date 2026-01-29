@@ -1,5 +1,5 @@
-#go-toolset:1.23
-FROM registry.redhat.io/ubi9/go-toolset:1.23@sha256:381fb72f087a07432520fa93364f66b5981557f1dd708f3c4692d6d0a76299b3 AS build
+#go-toolset:1.25.5
+FROM registry.redhat.io/ubi9/go-toolset:1.25.5@sha256:359dd4c6c4255b3f7bce4dc15ffa5a9aa65a401f819048466fa91baa8244a793 AS build
 
 LABEL image="build"
 
@@ -18,12 +18,12 @@ COPY . ./
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 GO111MODULE=on go build -a -o /go/bin/server ./proxy/
 
 #ubi-micro
-FROM registry.access.redhat.com/ubi8/ubi-micro@sha256:6bcadcf383738d7f6933d3c299cbbe5b6d40cfd12dc74821c401d544420aff16 as runtime
+FROM registry.access.redhat.com/ubi9/ubi-micro@sha256:e9765516d74cafded50d8ef593331eeca2ef6eababdda118e5297898d99b7433 as runtime
 
 ARG USER=2000
 
 LABEL com.redhat.component="odh-mm-rest-proxy-container" \
-      name="managed-open-data-hub/odh-mm-rest-proxy-rhel8" \
+      name="managed-open-data-hub/odh-mm-rest-proxy-rhel9" \
       description="Converts RESTfull API calls into gRPC" \
       summary="odh-mm-rest-proxy" \
       maintainer="['managed-open-data-hub@redhat.com']" \
