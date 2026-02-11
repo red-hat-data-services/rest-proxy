@@ -18,7 +18,7 @@ COPY . ./
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 GO111MODULE=on go build -a -o /go/bin/server ./proxy/
 
 #ubi-micro
-FROM registry.access.redhat.com/ubi8/ubi-micro@sha256:6bcadcf383738d7f6933d3c299cbbe5b6d40cfd12dc74821c401d544420aff16 as runtime
+FROM registry.access.redhat.com/ubi8/ubi-micro@sha256:9397bb617358901e4ca47796047fcf00b9912c115f8a7dc2c65c706847d0036a as runtime
 
 ARG USER=2000
 
