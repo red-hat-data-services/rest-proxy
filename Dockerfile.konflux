@@ -1,5 +1,5 @@
 # Builder
-FROM registry.access.redhat.com/ubi9/go-toolset:1.25@sha256:77bfb0f283eaa3215909342c3dda940605eff5b9f72d6dc18fad1d154d172d55 AS build
+FROM registry.access.redhat.com/ubi9/go-toolset:1.25@sha256:1e1c89558f8bf86db3d88e5d5de0b6bd396ef948749a2c5d6a752ea46f35d4db AS build
 
 LABEL image="build"
 
@@ -21,7 +21,7 @@ RUN CGO_ENABLED=1 GOOS=${TARGETOS:-linux} GOARCH=${TARGETARCH:-amd64} GO111MODUL
 
 ###############################################################################
 # Runtime - ubi-micro
-FROM registry.access.redhat.com/ubi9/ubi-minimal@sha256:fe688da81a696387ca53a4c19231e99289591f990c904ef913c51b6e87d4e4df as runtime
+FROM registry.access.redhat.com/ubi9/ubi-minimal@sha256:175bafd5bc7893540ed6234bb979acfe3574fd6570e6762bbc527c757f854cea as runtime
 
 ARG USER=2000
 
